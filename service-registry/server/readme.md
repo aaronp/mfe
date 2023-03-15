@@ -1,4 +1,4 @@
 # About
 
-A noddy service-registry server
+A noddy service-registry
 

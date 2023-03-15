@@ -1,7 +1,8 @@
 //> using scala "3.2.2"
 //> using lib "com.lihaoyi::cask:0.8.3"
-//> using lib "com.lihaoyi::upickle:3.0.0-M2"
+//> using lib "com.lihaoyi::upickle:3.0.0"
 
+import java.time.format.*
 import scala.util.*
 import Properties.*
 import java.time.*
@@ -10,16 +11,29 @@ import upickle._
 import upickle.default._
 import upickle.default.{ReadWriter => RW, macroRW}
 
+/** @param url The URL where to load the web-component
+  * @param component the component name
+  */
 case class WebComponent(url: String, component: String)
 object WebComponent{
-  implicit val rw: RW[WebComponent] = macroRW
+  given rw: RW[WebComponent] = macroRW
 }
 
-
+given ReadWriter[ZonedDateTime] = readwriter[String].bimap[ZonedDateTime](
+  zonedDateTime => DateTimeFormatter.ISO_INSTANT.format(zonedDateTime),
+  str => ZonedDateTime.parse(str, DateTimeFormatter.ISO_INSTANT))
+  
+/** The register request body */
 case class Register(webComponent : WebComponent, label : String, tags : Set[String])
 object Register{
-  implicit val rw: RW[Register] = macroRW
+  given rw: RW[Register] = macroRW
 }
+
+case class Service(service : Register, lastUpdated : ZonedDateTime = ZonedDateTime.now())
+object Service{
+  given rw: RW[Service] = macroRW
+}
+
 
 /**
   * package/run with: 
@@ -40,7 +54,7 @@ object Register{
   */
 object App extends cask.MainRoutes {
 
-  private var byId = Map[String, Register]()
+  private var serviceById = Map[String, Service]()
 
   @cask.get("/")
   def getRoot() = s"""GET /api/v1/registry/:id
@@ -49,17 +63,15 @@ object App extends cask.MainRoutes {
   @cask.post("/api/v1/registry/:id")
   def register(id : String, request: cask.Request) = {
     val body = read[Register](request.text())
-    println(s"body is $body")
-    byId = byId.updated(id, body)
+    serviceById = serviceById.updated(id, Service(body, ZonedDateTime.now()))
     write(body)
   }
 
   @cask.getJson("/api/v1/registry")
-  def list() = writeJs(byId)
-
+  def list() = writeJs(serviceById)
 
   @cask.get("/api/v1/registry/:id")
-  def get(id :String) = byId.get(id).map(x => write(x)).getOrElse(write(Nil))
+  def get(id :String) = serviceById.get(id).map(x => write(x)).getOrElse("[]")
 
   @cask.get("/health")
   def getHealthCheck() = s"${ZonedDateTime.now(ZoneId.of("UTC"))}"
