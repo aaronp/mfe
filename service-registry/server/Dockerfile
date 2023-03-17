@@ -2,7 +2,7 @@ FROM virtuslab/scala-cli:latest AS build
 RUN mkdir /app
 COPY ["App.scala", "/app/"]
 WORKDIR /app
-RUN scala-cli package App.scala -o app.jar --assembly
+RUN scala-cli --power package App.scala -o app.jar --assembly
 
 FROM openjdk:18-oraclelinux8
 RUN mkdir /app
