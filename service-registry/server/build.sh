@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-export IMG=${IMG:-service-registry}
+export TAG=${TAG:-latest}
+export IMG=${IMG:-porpoiseltd/service-registry:$TAG}
 export PORT=${PORT:-8080}
 
 # scala-cli --power package --docker App.scala --docker-from openjdk:11 --docker-image-repository service-registry

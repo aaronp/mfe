@@ -1,5 +1,5 @@
 //> using scala "3.2.2"
-//> using lib "com.lihaoyi::cask:0.8.3"
+//> using lib "com.lihaoyi::cask:0.9.0"
 //> using lib "com.lihaoyi::upickle:3.0.0"
 
 import java.time.format.*
@@ -74,7 +74,7 @@ object App extends cask.MainRoutes {
   def list() = writeJs(serviceById)
 
   @cask.get("/api/v1/registry/:id")
-  def get(id :String) = serviceById.get(id).map(x => write(x)).getOrElse(write(Map.empty))
+  def get(id :String) = serviceById.get(id).map(x => write(x)).getOrElse("{}")
 
   @cask.get("/health")
   def getHealthCheck() = s"${ZonedDateTime.now(ZoneId.of("UTC"))}"
