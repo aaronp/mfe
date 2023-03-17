@@ -14,9 +14,7 @@ const config = {
 		// See https://kit.svelte.dev/docs/adapters for more information about adapters.
 		adapter: adapterStatic(),
 
-		methodOverride : {
-			allowed: ['PATCH', 'DELETE']
-		}
+		// methodOverride : { allowed: ['PATCH', 'DELETE'] }
 	}
 };
 
