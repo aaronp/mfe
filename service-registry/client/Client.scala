@@ -5,12 +5,15 @@
  * run locally using:
   * {{{
   *   # register a component:
+  *   args are <id> <json body> <hostport>
   *   scala-cli Client.scala --main-class register -- foo '{"webComponent":{"url":"dave","component":"susan"},"label":"example","tags":["some","app"]}' http://localhost:8080
   * 
   *   # list components:
+  *   args are <hostport>
   *   scala-cli Client.scala --main-class list -- http://localhost:8080
   * 
   *   # get a component:
+  *   args are <id> <hostport>
   *   scala-cli Client.scala --main-class get -- foo http://localhost:8080
   * }}}
   * 

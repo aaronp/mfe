@@ -1,4 +1,0 @@
-#!/usr/bin/env -S scala-cli shebang -S 3
-
-println(args.size)
-println(args.headOption)
