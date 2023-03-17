@@ -39,18 +39,21 @@ object Service{
   * package/run with: 
   * {{{
   *   which scala-cli || brew install Virtuslab/scala-cli/scala-cli
-  *   scala-cli package App.scala -o app.jar -f --assembly
+  *   scala-cli package Server.scala -o app.jar -f --assembly
   *   java -jar app.jar
   * }}}
   * 
   * or:
   * 
-  * {{{ scala-cli App.scala }}}
+  * {{{ scala-cli Server.scala }}}
   * 
   * Test with:
   * {{{
   * curl -X POST -d '{"webComponent":{"url":"dave","component":"susan"},"label":"example","tags":["some","app"]}' http://localhost:8080/api/v1/registry/foo
   * }}}
+  * 
+  * 
+  * scala-cli setup-ide
   */
 object App extends cask.MainRoutes {
 
@@ -71,7 +74,7 @@ object App extends cask.MainRoutes {
   def list() = writeJs(serviceById)
 
   @cask.get("/api/v1/registry/:id")
-  def get(id :String) = serviceById.get(id).map(x => write(x)).getOrElse("[]")
+  def get(id :String) = serviceById.get(id).map(x => write(x)).getOrElse(write(Map.empty))
 
   @cask.get("/health")
   def getHealthCheck() = s"${ZonedDateTime.now(ZoneId.of("UTC"))}"
