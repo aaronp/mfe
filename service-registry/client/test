@@ -1,4 +1,5 @@
-#!/usr/bin/env -S scala-cli shebang -S 3 --dependency 
+#!/usr/bin/env -S scala-cli shebang -S 3 --dependency "com.lihaoyi::requests:0.8.0"
 
-println(args.size)
-println(args.headOption)
+val url = args.headOption.getOrElse(sys.env.get("URL"))
+println (s"url is $url from args " + args.mkString(","))
+sys.env.foreach(println)
