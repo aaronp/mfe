@@ -6,7 +6,7 @@
  [x] build server
  [x] build client
 
- [ ] K8S for server
+ [x] K8S for server
  [ ] Create skeleton host app
  [ ] K8s for skeleton host app using client
 
