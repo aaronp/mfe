@@ -5,9 +5,11 @@ COPY . .
 RUN yarn
 RUN yarn build
 
-FROM nginx:1.23.3-alpine AS deploy-static
+FROM node:19-alpine3.16 AS deploy
 
-WORKDIR /usr/share/nginx/html
+WORKDIR /app
 RUN rm -rf ./*
+COPY --from=build /app/package.json .
 COPY --from=build /app/build .
-ENTRYPOINT ["nginx", "-g", "daemon off;"]
+RUN yarn --prod
+ENTRYPOINT ["node", "index.js"]
