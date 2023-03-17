@@ -59,6 +59,12 @@ object App extends cask.MainRoutes {
 
   private var serviceById = Map[String, Service]()
 
+  def reply(body : ujson.Value) = cask.Response(
+    data = body,
+    headers = Seq("Access-Control-Allow-Origin" -> "*",
+      "Content-Type" -> "application/json")
+  )
+
   @cask.get("/")
   def getRoot() = s"""GET /api/v1/registry/:id
                      |POST /api/v1/registry/:id""".stripMargin
@@ -71,10 +77,10 @@ object App extends cask.MainRoutes {
   }
 
   @cask.getJson("/api/v1/registry")
-  def list() = writeJs(serviceById)
+  def list() = reply(writeJs(serviceById))
 
   @cask.get("/api/v1/registry/:id")
-  def get(id :String) = serviceById.get(id).map(x => write(x)).getOrElse("{}")
+  def get(id :String) = reply(serviceById.get(id).map(x => write(x)).getOrElse(write(Map.empty[String, String])))
 
   @cask.get("/health")
   def getHealthCheck() = s"${ZonedDateTime.now(ZoneId.of("UTC"))}"
