@@ -24,6 +24,7 @@ EOL
 }
 
 installArgo() {
+    APP=${APP:-server-registry}
     # assumes argocd (brew install argocd) is installed:
     #
     # which argocd || brew install argocd
@@ -35,9 +36,14 @@ installArgo() {
     # see 
     # https://github.com/easy-being-green/argo-drone/blob/main/argo/argo.sh
     #
-    argocd app create server-registry \
+    argocd app create $APP \
     --repo https://github.com/aaronp/mfe.git \
     --path service-registry/server/k8s \
     --dest-server https://kubernetes.default.svc \
     --dest-namespace mfe
+
+    # beast mode :-)
+    argocd app set $APP --sync-policy automated
+    argocd app set $APP --auto-prune
+    argocd app set $APP --self-heal
 }
