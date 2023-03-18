@@ -26,6 +26,8 @@ EOL
 installArgo() {
     APP=${APP:-dashboard}
 
+    echo "creating $APP"
+    
     argocd app create $APP \
     --repo https://github.com/aaronp/mfe.git \
     --path dashboard/k8s \
