@@ -16,7 +16,11 @@ export const values = derived(apiData, ($apiData) => {
   // }
   const keys = Object.keys($apiData);
   // keys.map((k) => {
-  //   return $apiData[k];
+  //   $apiData.at[k.toString()];
   // });
   return keys; //$apiData;
+});
+
+export const data = derived(apiData, ($apiData) => {
+  return $apiData;
 });

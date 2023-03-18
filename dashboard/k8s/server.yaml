@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: service-registry-deployment
+  name: dashboard-deployment
   namespace: mfe
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: service-registry
+      app: dashboard
   template:
     metadata:
       labels:
-        app: service-registry
+        app: dashboard
     spec:
       containers:
-      - name: service-registry
-        image: porpoiseltd/service-registry:latest
+      - name: dashboard
+        image: porpoiseltd/dashboard:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
@@ -40,13 +40,13 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: service-registry-service
+  name: dashboard-service
   namespace: mfe
 spec:
   type: LoadBalancer
   sessionAffinity: None
   selector:
-    app: service-registry
+    app: dashboard
   ports:
   - name : default
     port: 8080
