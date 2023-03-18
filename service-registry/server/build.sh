@@ -22,3 +22,22 @@ EOL
 
     echo "Running on port $PORT --- stop server using ./kill.sh"
 }
+
+installArgo() {
+    # assumes argocd (brew install argocd) is installed:
+    #
+    # which argocd || brew install argocd
+    #
+    # and logged in, e.g.
+    #
+    # argocd login localhost:$ARGO_PORT --username admin --password $MY_ARGO_PWD  --insecure --skip-test-tls 
+    #
+    # see 
+    # https://github.com/easy-being-green/argo-drone/blob/main/argo/argo.sh
+    #
+    argocd app create server-registry \
+    --repo https://github.com/aaronp/mfe.git \
+    --path service-registry/server/k8s \
+    --dest-server https://kubernetes.default.svc \
+    --dest-namespace mfe
+}
