@@ -5,9 +5,12 @@ export PORT=${PORT:-8080}
 
 # scala-cli --power package --docker App.scala --docker-from openjdk:11 --docker-image-repository service-registry
 
-
 build() {
     docker build --tag $IMG .
+}
+
+push() {
+    docker push --tag $IMG .
 }
 
 run() {
