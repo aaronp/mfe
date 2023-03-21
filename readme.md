@@ -11,9 +11,19 @@
  [x] K8s for dashboard app using server-registry
 
 
-### Component One - just a noddy data source stub
+### Component One - a pinot data source stub
+Milestone 1
  [ ] Create MFE Svelte web-component
- [ ] K8S for ^^^^ using server-registry client
+ [ ] K8S for ^^^^ using server-registry client <-- first client usage / sidecar
+ [ ] Test to load ^^^ from dashboard (hard-coded, test site) using localhost port-forward
+
+Milestone 2
+ [ ] Add pinot 
+ [ ] Create BFF REST client (w/ some test data)
+ [ ] Have our component talk to our BFF to see the data
+
+Milestone 3
+ [ ] connect the dots - get the dashboard to display the web component
 
 ### Other components
  [ ] an "OpenAPI", contract-first (cask?) app?
