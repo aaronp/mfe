@@ -3,6 +3,7 @@
 //> using lib "com.lihaoyi::upickle:3.0.0"
 //> using lib "com.lihaoyi::scalatags:0.12.0"
 //> using lib "org.apache.pinot:pinot-java-client:0.12.1"
+//> using lib "org.apache.logging.log4j:log4j-api:2.20.0"
 //> using lib "org.apache.logging.log4j:log4j-core:2.20.0"
 
 import org.apache.pinot.client.*
@@ -33,10 +34,19 @@ import scalatags.Text.all._
  */
 object Server extends cask.MainRoutes {
 
-case class TestRequest(conn: String, query: String)
-object TestRequest{
-  given rw: RW[TestRequest] = macroRW
-}
+  private val logger = org.slf4j.LoggerFactory.getLogger(getClass)
+
+  private def log(msg : String) = {
+    println(s"out: $msg")
+    logger.info(s"log: $msg")
+  }
+
+  log(s"Weird class: ${classOf[org.apache.logging.log4j.util.StackLocatorUtil]}")
+
+  case class TestRequest(conn: String, query: String)
+  object TestRequest{
+    given rw: RW[TestRequest] = macroRW
+  }
 
 
   class Row(result : RichResultSet, rowIndex : Int) {
@@ -87,16 +97,16 @@ object TestRequest{
   @cask.post("/test")
   def testConn(request : cask.Request) =
     val body = read[TestRequest](request.text())
-    println("testing " + body)
+    log("testing " + body)
     val client = PinotClient.fromZookeeper(body.conn)
     try {
-      println("running query... ")
+      log("running query... ")
       val results = client.query(body.query)
-      s"Got: ${results}"
+      log(s"Got: ${results}")
       reply(writeJs(results.asList))
     } catch {
       case err =>
-        println("bang: " + err)
+        log("bang: " + err)
         reply("{}")
     }
 
