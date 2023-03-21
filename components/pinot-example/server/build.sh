@@ -6,16 +6,16 @@ export PORT=${PORT:-8080}
 # scala-cli --power package --docker App.scala --docker-from openjdk:11 --docker-image-repository service-registry
 
 build() {
+    #pwd  --platform "linux/amd64,linux/arm64"
     docker build --tag $IMG .
 }
 
 push() {
-    docker push --tag $IMG .
+    docker push $IMG
 }
 
 run() {
-    echo "docker run -it --rm -p $PORT:$PORT -d $IMG"
-    id=`docker run -it --rm -p $PORT:$PORT -d $IMG`
+    id=`docker run -it --rm -p 8089:$PORT -d $IMG`
     cat > kill.sh <<EOL
 docker kill $id
 # clean up after ourselves
@@ -23,11 +23,11 @@ rm kill.sh
 EOL
     chmod +x kill.sh
 
-    echo "Running on port $PORT --- stop server using ./kill.sh"
+    echo "Running on port 8089 --- stop server using ./kill.sh"
 }
 
 installArgo() {
-    APP=${APP:-server-registry}
+    APP=${APP:-pinot-bff}
     # assumes argocd (brew install argocd) is installed:
     #
     # which argocd || brew install argocd
@@ -41,7 +41,7 @@ installArgo() {
     #
     argocd app create $APP \
     --repo https://github.com/aaronp/mfe.git \
-    --path service-registry/server/k8s \
+    --path components/pinot-example/server/k8s \
     --dest-server https://kubernetes.default.svc \
     --dest-namespace mfe
 

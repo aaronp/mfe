@@ -7,8 +7,8 @@ import scala.util.*
 import Properties.*
 import java.time.*
 
-import upickle._
-import upickle.default._
+import upickle.*
+import upickle.default.*
 import upickle.default.{ReadWriter => RW, macroRW}
 
 /** @param url The URL where to load the web-component
@@ -61,8 +61,7 @@ object App extends cask.MainRoutes {
 
   def reply(body : ujson.Value) = cask.Response(
     data = body,
-    headers = Seq("Access-Control-Allow-Origin" -> "*",
-      "Content-Type" -> "application/json")
+    headers = Seq("Access-Control-Allow-Origin" -> "*", "Content-Type" -> "application/json")
   )
 
   @cask.get("/")

@@ -2,3 +2,5 @@
 kill.sh
 node_modules
 .svelte-kit/generated
+.scala-build
+.bsp
