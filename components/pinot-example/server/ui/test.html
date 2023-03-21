@@ -34,7 +34,9 @@ input { display: table-cell; }
 <body>
 Test page:
 <form>
-    <p><label for="conn">Host port:</label><input id="conn" type="text" value="pinot-zookeeper-0.pinotdb.svc.cluster.local:2181/DefaultTenant" style="width:400px"/></p>
+    <!--
+    <p><label for="conn">Host port:</label><input id="conn" type="text" value="pinot-zookeeper.pinotdb:2181/DefaultTenant" style="width:400px"/></p>
+    -->
     <p><label for="query">Query: </label><input id="query" type="text"  style="width:400px" value="select * from airlineStats limit 10"/></p>
     <input type="button" value="Test" onclick=" test()">
     <div id="results"></div>
