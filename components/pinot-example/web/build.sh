@@ -1,16 +1,17 @@
 #!/usr/bin/env bash
 export TAG=${TAG:-latest}
-export IMG=${IMG:-porpoiseltd/basic-card:$TAG}
+export IMG=${IMG:-porpoiseltd/mfe-component1:$TAG}
 export PORT=${PORT:-3000}
 
 
 build() {
-    docker build .  --tag $IMG .
-    echo "Built. To run:"
+    echo "Building $IMG..."
+    docker build --tag $IMG .
+    echo "Built $IMG. To run:"
     echo ""
-    echo "docker run -it -p 8080:80 basic-card-component"
+    echo "docker run -it -p $PORT:80 basic-card-component"
     echo ""
-    echo "And open http://localhost:8080/bundle.js or http://localhost:8080/bundle.css"
+    echo "And open http://localhost:$PORT/bundle.js or http://localhost:$PORT/bundle.css"
 }
 
 dev() {
@@ -22,8 +23,8 @@ push() {
     docker push $IMG
 }
 run() {
-    echo "docker run -it --rm -p $PORT:$PORT -d $IMG"
-    id=`docker run -it --rm -p $PORT:$PORT -d $IMG`
+    echo "docker run -it --rm -p $PORT:80 -d $IMG"
+    id=`docker run -it --rm -p $PORT:80 -d $IMG`
     cat > kill.sh <<EOL
 docker kill $id
 # clean up after ourselves

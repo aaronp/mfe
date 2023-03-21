@@ -13,9 +13,10 @@
 
 ### Component One - a pinot data source stub
 Milestone 1
- [ ] Create MFE Svelte web-component
- [ ] K8S for ^^^^ using server-registry client <-- first client usage / sidecar
- [ ] Test to load ^^^ from dashboard (hard-coded, test site) using localhost port-forward
+ [x] Create MFE Svelte web-component
+ [x] K8S for ^^^^ using server-registry client <-- first client usage / sidecar
+ [x] Test to load ^^^ from dashboard (hard-coded, test site) using localhost port-forward
+    (see components/pinot-example/web/test/dynamic-test.html)
 
 Milestone 2
  [ ] Add pinot 
