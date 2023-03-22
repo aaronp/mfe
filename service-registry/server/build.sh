@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-export TAG=${TAG:-latest}
+export TAG=${TAG:-0.0.1}
 export IMG=${IMG:-porpoiseltd/service-registry:$TAG}
 export PORT=${PORT:-8080}
 
@@ -9,8 +9,20 @@ build() {
     docker build --tag $IMG .
 }
 
+test() {
+  echo "registering foo"
+  curl -X POST -d '{"webComponent":{"jsUrl":"path/to/component.js","cssUrl":"path/to/component.css","componentId":"some-component"},"label":"some friendly label","tags":{"env":"prod","createdBy":"somebody"}}' http://localhost:$PORT/api/v1/registry/foo
+  curl -X POST -d '{"webComponent":{"jsUrl":"another/server/bundle.js","cssUrl":"bundle.css","componentId":"another-component"},"label":"another label","tags":{"env":"prod"}}' http://localhost:$PORT/api/v1/registry/bar
+  echo ""
+  echo "getting foo:"
+  curl -X GET http://localhost:$PORT/api/v1/registry/foo
+  echo ""
+  echo "listing result:"
+  curl -X GET http://localhost:$PORT/api/v1/registry
+}
+
 push() {
-    docker push --tag $IMG .
+    docker push $IMG
 }
 
 run() {

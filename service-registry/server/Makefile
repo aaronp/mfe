@@ -6,3 +6,5 @@ push: build
 	source ./build.sh && push
 installArgo:
 	source ./build.sh && installArgo
+test:
+	source ./build.sh && test

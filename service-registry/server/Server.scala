@@ -11,12 +11,17 @@ import upickle.*
 import upickle.default.*
 import upickle.default.{ReadWriter => RW, macroRW}
 
-/** @param url The URL where to load the web-component
-  * @param component the component name
-  */
-case class WebComponent(url: String, component: String)
+/**
+ *
+ * @param jsUrl The URL where to load the web-component's javascript
+ * @param cssUrl The URL where to load the css web-component's css
+ * @param componentId the web component id
+ */
+case class WebComponent(jsUrl: String, cssUrl: String, componentId: String)
 object WebComponent{
   given rw: RW[WebComponent] = macroRW
+  def example = WebComponent("path/to/component.js", "path/to/component.css", "comp-onent")
+
 }
 
 given ReadWriter[ZonedDateTime] = readwriter[String].bimap[ZonedDateTime](
@@ -24,9 +29,11 @@ given ReadWriter[ZonedDateTime] = readwriter[String].bimap[ZonedDateTime](
   str => ZonedDateTime.parse(str, DateTimeFormatter.ISO_INSTANT))
   
 /** The register request body */
-case class Register(webComponent : WebComponent, label : String, tags : Set[String])
+case class Register(webComponent : WebComponent, label : String, tags : Map[String, String] = Map.empty)
 object Register{
   given rw: RW[Register] = macroRW
+
+  def example = Register(WebComponent.example, "some friendly label", Map("env" -> "prod", "createdBy" -> "somebody"))
 }
 
 case class Service(service : Register, lastUpdated : ZonedDateTime = ZonedDateTime.now())
@@ -59,8 +66,12 @@ object App extends cask.MainRoutes {
 
   private var serviceById = Map[String, Service]()
 
-  def reply(body : ujson.Value) = cask.Response(
+  def empty = writeJs(Map.empty[String, String])
+  def msg(text : String) = writeJs(Map("message" -> text))
+
+  def reply(body : ujson.Value = empty, statusCode : Int = 200) = cask.Response(
     data = body,
+    statusCode = statusCode,
     headers = Seq("Access-Control-Allow-Origin" -> "*", "Content-Type" -> "application/json")
   )
 
@@ -76,10 +87,19 @@ object App extends cask.MainRoutes {
   }
 
   @cask.getJson("/api/v1/registry")
-  def list() = reply(writeJs(serviceById))
+  def list() = {
+    val asList = serviceById.map {
+      case (id, service) => ujson.Obj(
+        "id" -> writeJs(id),
+        "service" -> writeJs(service.service),
+        "lastUpdated" -> writeJs(service.lastUpdated))
+    }
+    reply(ujson.Arr.from(asList))
+  }
 
   @cask.get("/api/v1/registry/:id")
-  def get(id :String) = reply(serviceById.get(id).map(x => write(x)).getOrElse(write(Map.empty[String, String])))
+  def get(id :String) = serviceById.get(id).map(x => reply(writeJs(x)))
+    .getOrElse(reply(msg("Not Found"),statusCode = 404))
 
   @cask.get("/health")
   def getHealthCheck() = s"${ZonedDateTime.now(ZoneId.of("UTC"))}"
