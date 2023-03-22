@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: pinot-bff
-        image: porpoiseltd/pinot-bff:0.0.1
+        image: porpoiseltd/pinot-bff:0.0.2
         imagePullPolicy: Always
         ports:
         - containerPort: 8080

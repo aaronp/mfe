@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-export TAG=${TAG:-0.0.1}
+export TAG=${TAG:-0.0.2}
 export IMG=${IMG:-porpoiseltd/pinot-bff:$TAG}
 export PORT=${PORT:-8080}
 
