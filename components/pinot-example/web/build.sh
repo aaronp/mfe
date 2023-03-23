@@ -37,7 +37,6 @@ EOL
 }
 
 installArgo() {
-    set -x
     APP=${APP:-pinot-web}
     BRANCH=${BRANCH:-`git rev-parse --abbrev-ref HEAD`}
 
