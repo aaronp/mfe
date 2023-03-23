@@ -45,7 +45,7 @@ EOL
 # https://github.com/easy-being-green/argo-drone/blob/main/argo/argo.sh
 #
 installArgo() {
-    APP=${APP:-dashboard}
+    APP=${APP:-service-registry}
     BRANCH=${BRANCH:-`git rev-parse --abbrev-ref HEAD`}
 
     echo "creating $APP"
@@ -53,7 +53,7 @@ installArgo() {
     # beast mode :-)
     argocd app create $APP \
     --repo https://github.com/aaronp/mfe.git \
-    --path dashboard/k8s \
+    --path service-registry/server/k8s \
     --dest-server https://kubernetes.default.svc \
     --dest-namespace mfe \
     --sync-policy automated \
