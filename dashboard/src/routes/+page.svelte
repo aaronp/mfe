@@ -4,8 +4,8 @@
     import { apiData, values } from './store.js';
     
     onMount(async () => {
-      //fetch("https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=Bourbon")
-      fetch("http://localhost:8080/api/v1/registry")
+      //fetch("http://localhost:8080/api/v1/registry")
+      fetch("https://service-registry-service.mfe:8080/api/v1/registry")
       .then(response => response.json())
       .then(data => {
             console.log(data);
