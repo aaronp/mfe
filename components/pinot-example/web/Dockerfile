@@ -14,6 +14,8 @@ RUN npm run build
 FROM nginx:1.19-alpine
 COPY --from=build /app/public /usr/share/nginx/html
 
+EXPOSE 3000
+
 # svelte will create random IDs for our gnerated components, e.g. "dist/assets/index-65be3931.css"
 # we rename in our build for conssitent IDs
 COPY --from=build /app/dist/assets/svelte-*.svg /usr/share/nginx/html/assets/svelte.svg

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-export TAG=${TAG:-0.0.1}
+export TAG=${TAG:-0.0.2}
 export IMG=${IMG:-porpoiseltd/pinot-component-web:$TAG}
 export PORT=${PORT:-3000}
 
@@ -9,7 +9,7 @@ build() {
     docker build --tag $IMG .
     echo "Built $IMG. To run:"
     echo ""
-    echo "docker run -it -p $PORT:80 basic-card-component"
+    echo "docker run -it -p $PORT:80 $IMG"
     echo ""
     echo "And open http://localhost:$PORT/bundle.js or http://localhost:$PORT/bundle.css"
 }
@@ -19,9 +19,10 @@ dev() {
     yarn dev
 }
 
-push() {
-    docker push $IMG
+push() { 
+    docker push $IMG 
 }
+
 run() {
     echo "docker run -it --rm -p $PORT:80 -d $IMG"
     id=`docker run -it --rm -p $PORT:80 -d $IMG`

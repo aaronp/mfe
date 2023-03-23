@@ -18,16 +18,16 @@ spec:
         image: porpoiseltd/pinot-component-web:0.0.1
         imagePullPolicy: Always
         ports:
-        - containerPort: 3000
+        - containerPort: 80
         readinessProbe:
           tcpSocket:
-            port: 3000
+            port: 80
           initialDelaySeconds: 3
           periodSeconds: 3
         livenessProbe:
           httpGet:
             path: /
-            port: 3000
+            port: 80
             scheme: HTTP
           initialDelaySeconds: 3
           periodSeconds: 3
