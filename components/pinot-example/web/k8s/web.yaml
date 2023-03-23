@@ -4,7 +4,7 @@ metadata:
   name: pinot-component-web-deployment
   namespace: mfe
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: pinot-component-web
