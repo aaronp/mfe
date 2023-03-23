@@ -36,18 +36,21 @@ EOL
 }
 
 installArgo() {
-    APP=${APP:-dashboard}
+    set -x
+    APP=${APP:-pinot-web}
+    BRANCH=${BRANCH:-`git rev-parse --abbrev-ref HEAD`}
 
     echo "creating $APP"
     
+    # beast mode :-)
     argocd app create $APP \
     --repo https://github.com/aaronp/mfe.git \
-    --path dashboard/k8s \
+    --path components/pinot-example/web/k8s \
     --dest-server https://kubernetes.default.svc \
-    --dest-namespace mfe
+    --dest-namespace mfe \
+    --sync-policy automated \
+    --auto-prune \
+    --self-heal \
+    --revision $BRANCH
 
-    # beast mode :-)
-    argocd app set $APP --sync-policy automated
-    argocd app set $APP --auto-prune
-    argocd app set $APP --self-heal
 }
