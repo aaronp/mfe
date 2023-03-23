@@ -15,10 +15,6 @@ const config = {
 		adapter: adapterNode(),
 
 		// methodOverride : { allowed: ['PATCH', 'DELETE'] }
-	},
-
-	compilerOptions: {
-		customElement: true,
 	}
 };
 

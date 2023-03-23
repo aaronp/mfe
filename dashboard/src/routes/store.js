@@ -11,14 +11,7 @@ For our use case, we only care about the drink names, not the other information.
 Here, we'll create a derived store to hold the drink names.
 **/
 export const values = derived(apiData, ($apiData) => {
-  // if ($apiData.drinks){
-  //   return $apiData.drinks.map(drink => drink.strDrink);
-  // }
-  const keys = Object.keys($apiData);
-  // keys.map((k) => {
-  //   $apiData.at[k.toString()];
-  // });
-  return keys; //$apiData;
+  return $apiData;
 });
 
 export const data = derived(apiData, ($apiData) => {
