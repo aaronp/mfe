@@ -15,9 +15,17 @@ pushd ~/code/argo-drone/argo
 make install
 make login
 
+# install in argo
 cd ~/code/mfe/service-registry/server && make installArgo
 cd ~/code/mfe/dashboard && make installArgo
 cd ~/code/mfe/components/pinot-example/web && pwd && make installArgo
+
+
+# or install directly
+k apply -f ~/code/mfe/service-registry/server/k8s/*.yaml
+k apply -f ~/code/mfe/dashboard/k8s/*.yaml
+k apply -f ~/code/mfe/components/pinot-example/web/k8s/*.yaml
+
 
 # or tear it all down:
 k delete namespace mfe & 

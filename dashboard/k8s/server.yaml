@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: dashboard
-        image: porpoiseltd/dashboard:0.0.2
+        image: porpoiseltd/dashboard:0.0.3
         imagePullPolicy: Always
         ports:
         - containerPort: 3000
