@@ -8,6 +8,18 @@ This is how to "boot up" this micro-architecture on a new K8S cluster, showing:
 
 And an example of small polyglot repos.
 
+
+The main point is quick, meaningful feedback and a great dev experience.
+
+The order of development/testing is typically:
+
+1) locally: in your favorite IDE -- run individual components
+2) locally: in its packaged environment (docker build, docker run)
+3) locally: in its deployed (integration) environment (kubectl apply or local argoCD)
+
+After that, it should/can be nearly 100% consistent when done remotely -- and the process looks the same
+
+
 TL;DR: To just spin up everything:
 ```
 
@@ -25,7 +37,6 @@ cd ~/code/mfe/components/pinot-example/web && pwd && make installArgo
 k apply -f ~/code/mfe/service-registry/server/k8s/*.yaml
 k apply -f ~/code/mfe/dashboard/server/k8s/*.yaml
 k apply -f ~/code/mfe/dashboard/web/k8s/*.yaml
-k delete -f ~/code/mfe/dashboard/k8s/*.yaml
 k apply -f ~/code/mfe/components/pinot-example/web/k8s/*.yaml
 
 

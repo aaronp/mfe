@@ -35,7 +35,7 @@ installArgo() {
     
     argocd app create $APP \
     --repo https://github.com/aaronp/mfe.git \
-    --path dashboard/wserver/k8s \
+    --path dashboard/server/k8s \
     --dest-server https://kubernetes.default.svc \
     --dest-namespace mfe \
     --sync-policy automated \
