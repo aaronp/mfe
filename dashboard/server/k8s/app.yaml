@@ -17,6 +17,9 @@ spec:
       - name: dashboard-bff
         image: porpoiseltd/dashboard-bff:0.0.1
         imagePullPolicy: Always
+        env:
+          - name: HOSTPORT
+            value: http://service-registry-service.mfe:8080
         ports:
         - containerPort: 8081
         readinessProbe:

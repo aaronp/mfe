@@ -10,16 +10,16 @@
      * $ is there a better way to do this - hard-code URLs?
      */
     // const serverReg = "http://localhost:8087/api/v1/registry";
-    const serverReg = new URL("/api/v1/registry", "http://service-registry-service.mfe:8080");
+    const componentsUrl = new URL("/component", "http://dashboard-bff-service.mfe:8080");
 
     let container;
 
 
     onMount(async () => {
-      fetch(serverReg)
+      fetch(componentsUrl)
       // fetch("https://service-registry-service.mfe:8080/api/v1/registry")
       .then(response => {
-        console.log(serverReg + " returned " + response);
+        console.log(componentsUrl + " returned " + response);
         return response.json();
       })
       .then(data => {
