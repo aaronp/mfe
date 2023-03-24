@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-export TAG=${TAG:-0.0.2}
-export IMG=${IMG:-porpoiseltd/dashboard:$TAG}
+export TAG=${TAG:-0.0.1}
+export IMG=${IMG:-porpoiseltd/dashboard-web:$TAG}
 export PORT=${PORT:-3000}
 
 build() {
@@ -31,7 +31,7 @@ installArgo() {
     
     argocd app create $APP \
     --repo https://github.com/aaronp/mfe.git \
-    --path dashboard/k8s \
+    --path dashboard/web/k8s \
     --dest-server https://kubernetes.default.svc \
     --dest-namespace mfe \
     --sync-policy automated \

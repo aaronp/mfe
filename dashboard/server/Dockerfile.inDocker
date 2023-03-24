@@ -1,0 +1,18 @@
+FROM virtuslab/scala-cli:latest AS build
+RUN mkdir /app
+COPY ["*.scala", "/app/"]
+COPY ["build.sh", "/app/"]
+WORKDIR /app
+RUN source build.sh && buildLocally
+
+FROM openjdk:18-oraclelinux8
+RUN mkdir /app
+COPY --from=build /app/* /app
+WORKDIR /app
+
+RUN addgroup --system javauser && adduser -S -s /bin/false -G javauser javauser
+RUN chown -R javauser:javauser /app
+USER javauser
+
+# use -cp rather than -jar as there are multiple main entry points
+CMD java -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -jar app.jar 

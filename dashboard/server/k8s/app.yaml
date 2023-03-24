@@ -1,33 +1,36 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: dashboard-deployment
+  name: dashboard-bff-deployment
   namespace: mfe
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: dashboard
+      app: dashboard-bff
   template:
     metadata:
       labels:
-        app: dashboard
+        app: dashboard-bff
     spec:
       containers:
-      - name: dashboard
-        image: porpoiseltd/dashboard:0.0.2
+      - name: dashboard-bff
+        image: porpoiseltd/dashboard-bff:0.0.3
         imagePullPolicy: Always
+        env:
+          - name: HOSTPORT
+            value: http://service-registry-service.mfe:8080
         ports:
-        - containerPort: 3000
+        - containerPort: 8081
         readinessProbe:
           tcpSocket:
-            port: 3000
+            port: 8081
           initialDelaySeconds: 3
           periodSeconds: 3
         livenessProbe:
           httpGet:
-            path: /
-            port: 3000
+            path: /health
+            port: 8081
             scheme: HTTP
           initialDelaySeconds: 3
           periodSeconds: 3
@@ -40,14 +43,14 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: dashboard-service
+  name: dashboard-bff-service
   namespace: mfe
 spec:
   type: LoadBalancer
   sessionAffinity: None
   selector:
-    app: dashboard
+    app: dashboard-bff
   ports:
   - name : default
-    port: 80
-    targetPort: 3000
+    port: 8080
+    targetPort: 8081
