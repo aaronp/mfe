@@ -1,4 +1,30 @@
-# demo schedule
+# Demo
+
+This is how to "boot up" this micro-architecture on a new K8S cluster, showing:
+ * docker
+ * kubectl
+ * k9s
+ * argocd
+
+And an example of small polyglot repos.
+
+TL;DR: To just spin up everything:
+```
+
+pushd ~/code/argo-drone/argo
+make install
+make login
+
+cd ~/code/mfe/service-registry/server && make installArgo
+cd ~/code/mfe/dashboard && make installArgo
+cd ~/code/mfe/components/pinot-example/web && pwd && make installArgo
+
+# or tear it all down:
+k delete namespace mfe & 
+k delete namespace argocd &
+
+popd
+```
 
 ## server registry
 
@@ -44,12 +70,14 @@ kubectl get all -n mfe
 create our app in k8s:
 
 ```
-k create namespace 
+cd service-registry/server/k8s 
+k create namespace mfe
 k apply -f server.yaml
 
 k get all -n mfe 
 
 k get service -w -n mfe 
+
 ```
 
 ### show k9s
@@ -79,5 +107,13 @@ open http://localhost:9090
 Now install our service-registry:
 
 ```
+# back to our original directory
+cd - 
+
+# let's stop our service
+k delete -f server.yaml
+
+# and install it using CD
+cd ../
 make installArgo
 ```
