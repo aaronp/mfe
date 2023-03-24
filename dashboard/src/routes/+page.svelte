@@ -10,7 +10,7 @@
      * $ is there a better way to do this - hard-code URLs?
      */
     // const serverReg = "http://localhost:8087/api/v1/registry";
-    const serverReg = new URL("/api/v1/registry", "http://service-registry-service.mfe:8087");
+    const serverReg = new URL("/api/v1/registry", "http://service-registry-service.mfe:8080");
 
     let container;
 
