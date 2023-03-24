@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-export TAG=${TAG:-0.0.3}
-export IMG=${IMG:-porpoiseltd/dashboard:$TAG}
+export TAG=${TAG:-0.0.1}
+export IMG=${IMG:-porpoiseltd/dashboard-web:$TAG}
 export PORT=${PORT:-3000}
 
 build() {
