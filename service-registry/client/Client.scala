@@ -1,30 +1,6 @@
 //> using scala "3.2.2"
 //> using lib "com.lihaoyi::requests:0.8.0" 
 
-/**
- * run locally using:
-  * {{{
-  *   # register a component:
-  *   args are <id> <json body> <hostport>
-  *   
-  *   # list components:
-  *   args are <hostport>
-  *   scala-cli Client.scala --main-class list -- http://localhost:8080
-  * 
-  *   # get a component:
-  *   args are <id> <hostport>
-  *   scala-cli Client.scala --main-class get -- foo http://localhost:8080
-  * }}}
-  * 
-  * or 
-  * 
-  * {{{
-  *   which scala-cli || brew install Virtuslab/scala-cli/scala-cli
-  *   scala-cli package Client.scala -o client.jar -f --assembly
-  *   java -jar client.jar
-  * }}}
-  * 
-  */
 def env(key : String) = sys.env.getOrElse(key, sys.error(s"$key env variable not set: ${sys.env.mkString("\n","\n","\n")}\n properties:\n ${sys.props.mkString("\n")}"))
 @main def register(id : String = env("ID"),  body : String = env("BODY"),  hostPort : String = env("HOSTPORT")) = {
   val url = s"$hostPort/api/v1/registry/$id"

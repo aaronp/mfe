@@ -3,6 +3,28 @@
 A client for our noddy service registry
 
 
+## Running Locally
+List components:
+args are <hostport>
+```
+scala-cli Client.scala --main-class list -- http://localhost:8080
+```
+
+### Get a component:
+args are <id> <hostport>
+```
+scala-cli Client.scala --main-class get -- foo http://localhost:8080
+```
+
+or by building the assembly:
+
+```
+which scala-cli || brew install Virtuslab/scala-cli/scala-cli
+scala-cli package Client.scala -o client.jar -f --assembly
+java -jar client.jar
+```
+
+
 See the [Makefile](./Makefile) for build targets.e.g:
 
 ```

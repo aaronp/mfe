@@ -45,13 +45,12 @@ object model {
 
 object App extends cask.MainRoutes {
 
-  import model.*
+  import model.{given, *}
   private var serviceById = Map[String, Service]()
 
-  def empty = writeJs(Map.empty[String, String])
   def msg(text : String) = writeJs(Map("message" -> text))
 
-  def reply(body : ujson.Value = empty, statusCode : Int = 200) = cask.Response(
+  def reply(body : ujson.Value = ujson.Null, statusCode : Int = 200) = cask.Response(
     data = body,
     statusCode = statusCode,
     headers = Seq("Access-Control-Allow-Origin" -> "*", "Content-Type" -> "application/json")

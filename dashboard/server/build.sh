@@ -1,10 +1,14 @@
 #!/usr/bin/env bash
-export TAG=${TAG:-0.0.3}
-export IMG=${IMG:-porpoiseltd/dashboard:$TAG}
-export PORT=${PORT:-3000}
+export TAG=${TAG:-0.0.1}
+export IMG=${IMG:-porpoiseltd/dashboard-bff:$TAG}
+export PORT=${PORT:-8081}
 
 build() {
     docker build --tag $IMG .
+}
+
+buildLocally() {
+    scala-cli --power package App.scala -o app.jar --assembly
 }
 
 push() {
@@ -31,12 +35,11 @@ installArgo() {
     
     argocd app create $APP \
     --repo https://github.com/aaronp/mfe.git \
-    --path dashboard/k8s \
+    --path dashboard/wserver/k8s \
     --dest-server https://kubernetes.default.svc \
     --dest-namespace mfe \
     --sync-policy automated \
     --auto-prune \
     --self-heal \
     --revision $BRANCH
-
 }

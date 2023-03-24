@@ -24,6 +24,7 @@ cd ~/code/mfe/components/pinot-example/web && pwd && make installArgo
 # or install directly
 k apply -f ~/code/mfe/service-registry/server/k8s/*.yaml
 k apply -f ~/code/mfe/dashboard/k8s/*.yaml
+k delete -f ~/code/mfe/dashboard/k8s/*.yaml
 k apply -f ~/code/mfe/components/pinot-example/web/k8s/*.yaml
 
 
