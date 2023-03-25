@@ -1,5 +1,7 @@
 run: build
 	source ./build.sh && run
+runLocal:
+	source ./build.sh && runLocal
 build: 
 	source ./build.sh && build
 push: build

@@ -10,6 +10,12 @@ build() {
 push() {
     docker push $IMG
 }
+
+runLocal() {
+    yarn
+    yarn dev
+}
+
 run() {
     echo "docker run -it --rm -p $PORT:$PORT -d $IMG"
     id=`docker run -it --rm -p $PORT:$PORT -d $IMG`

@@ -24,22 +24,19 @@ It's an example of analytics platform which consists of:
     (see components/pinot-example/web/test/dynamic-test.html)
 
 ### Milestone 2
- - [ ] connect the dots - get the dashboard to display the web component
+ - [x] connect the dots - get the dashboard to display the web component
    - [x] fix the object response for service registry
    - [x] add service-registry client to the components/pinot-example/web/k8s as a side-car
    - [x] change 'url' to 'js' and 'css' urls
-   - [ ] update the dashboard to use the new service-registry contract
-   - [ ] display some kind of drop-down
+   - [x] update the dashboard to use the new service-registry contract
+   - [x] display some kind of drop-down or lists
 e
 
 ### Milestone 3
  - [ ] Add a pinot componenet
- - [ ] Create BFF REST client (w/ some test data)
- - [ ] Have our component talk to our BFF to see the data
 
 # Further work: other components ideas
- - [ ] an "OpenAPI", contract-first (cask?) app?
- - [ ] a Apache Pinot source
+ - [ ] add an "OpenAPI", contract-first (cask?) app?
  - [ ] a WebSocket dashboard
  - [ ] a GraphQL data source
 
