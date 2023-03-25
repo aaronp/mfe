@@ -8,8 +8,15 @@ export PORT=${PORT:-8081}
 # pushd $DIR
 
 build() {
-    docker build --tag $IMG .
-    popd 
+    docker build -f Dockerfile.local --tag $IMG .
+}
+
+clean() {
+    [[ -f app.jar ]] && rm app.jar || echo ""
+}
+
+buildInDocker() {
+    docker build -f Dockerfile.inDocker --tag $IMG .
 }
 
 buildLocally() {
@@ -36,7 +43,7 @@ installArgo() {
     APP=${APP:-dashboard}
     BRANCH=${BRANCH:-`git rev-parse --abbrev-ref HEAD`}
 
-    echo "creating $APP"
+    echo "creating $APP to point at $BRANCH"
     
     argocd app create $APP \
     --repo https://github.com/aaronp/mfe.git \

@@ -10,5 +10,9 @@ RUN mkdir /app
 COPY --from=build /app/* /app
 WORKDIR /app
 
+RUN addgroup --system javauser && adduser -S -s /bin/false -G javauser javauser
+RUN chown -R javauser:javauser /app
+USER javauser
+
 # use -cp rather than -jar as there are multiple main entry points
-CMD java -jar app.jar 
+CMD java -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -jar app.jar 
