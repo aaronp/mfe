@@ -25,25 +25,22 @@
       });
     });
 
+
+    const url = (path) => new URL(path, `http://${window.location.host}`);
+
     const fetchComponent = async (id) => {
-      const url = new URL(`/component/${id}`, dashboardHost);
-      const future = fetch(url).then(data => {
+      const json = await fetch(url(`/api/component/${id}`)).then(data => {
         return data.json();
-      })
-      const json = await future;
-      const componentHtml = json.service.webComponent.componentId;
-      return componentHtml;
+      });
+      return json.service.webComponent.componentId;
     }
 
     const addComponent = async (comp) => {
-
       const id = comp.id;
-      const jsUrl = new URL(`/component/${id}/bundle.js`, dashboardHost);
-      const cssUrl = new URL(`/component/${id}/bundle.css`, dashboardHost);
 
       const componentHtml = await fetchComponent(id);
 
-      dynamicLoad(jsUrl, cssUrl);
+      dynamicLoad(url(`/api/component/${id}/bundle.js`), url(`/api/component/${id}/bundle.css`));
 
       const child = document.createElement('span');
       container.innerHTML = componentHtml;
@@ -60,8 +57,7 @@
     {#each $values as i}
         <li><div>
           {#if i.isStale}
-          <span>{i.label}</span>
-          <span class="stale">(component is stale: is was last updated ({i.secondsSinceLastHeartbeat}) seconds ago)</span>
+          <s>{i.label}</s><span class="stale">(last update was ({i.secondsSinceLastHeartbeat}) seconds ago)</span>
           {:else}
             <a href="#" on:click={addComponent(i)}>{i.label}</a>
           {/if}
