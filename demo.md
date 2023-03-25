@@ -34,6 +34,7 @@ cd ~/code/mfe/components/pinot-example/web && pwd && make installArgo
 
 
 # or install directly
+k create namespace mfe
 k apply -f ~/code/mfe/service-registry/server/k8s/*.yaml
 k apply -f ~/code/mfe/dashboard/server/k8s/*.yaml
 k apply -f ~/code/mfe/dashboard/web/k8s/*.yaml

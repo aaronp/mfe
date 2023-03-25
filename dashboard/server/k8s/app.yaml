@@ -4,7 +4,7 @@ metadata:
   name: dashboard-bff-deployment
   namespace: mfe
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: dashboard-bff
@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: dashboard-bff
-        image: porpoiseltd/dashboard-bff:0.0.1
+        image: porpoiseltd/dashboard-bff:0.0.2
         imagePullPolicy: Always
         env:
           - name: HOSTPORT

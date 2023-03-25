@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: dashboard-deployment
+  name: dashboard-web
   namespace: mfe
 spec:
   replicas: 1
@@ -40,13 +40,13 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: dashboard-service
+  name: dashboard-web
   namespace: mfe
 spec:
   type: LoadBalancer
   sessionAffinity: None
   selector:
-    app: dashboard
+    app: dashboard-web
   ports:
   - name : default
     port: 80

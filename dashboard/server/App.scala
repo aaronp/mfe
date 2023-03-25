@@ -94,6 +94,7 @@ object App extends cask.MainRoutes {
 
     scheduler.scheduleAtFixedRate(() => {
       components = listComponents()
+      lastUpdated = ZonedDateTime.now()
     }, cacheAgeInSeconds, cacheAgeInSeconds, TimeUnit.SECONDS)
 
     def get(id : String): Option[ListResponse] = components.find(_.id == id)
