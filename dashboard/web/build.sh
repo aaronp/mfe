@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
-export TAG=${TAG:-0.0.4}
+export TAG=${TAG:-0.0.5}
 export IMG=${IMG:-porpoiseltd/dashboard-web:$TAG}
 export PORT=${PORT:-3000}
 
-build() {
+buildDocker() {
     docker build --tag $IMG .
 }
 

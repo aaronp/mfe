@@ -4,29 +4,21 @@
     import { dynamicLoad } from './dynamicload.js';
     
 
-    /**
-     * Questions:
-     * 
-     * $ is there a better way to do this - hard-code URLs?
-     */
-    const dashboardHost = "http://localhost:8081";
-    //const dashboardHost = "http://dashboard-bff-service.mfe:8080";
-
     let container;
+    const url = (path) => new URL(path, `http://${window.location.host}`);
+
 
     onMount(async () => {
-      fetch(new URL("/component", dashboardHost))
+      fetch(url("/api/component"))
       .then(response => { return response.json(); })
       .then(data => {
         apiData.set(data);
       }).catch(error => {
-        console.log(error);
+        console.log(`error fetching ${url("/api/component")}: ${error}`);
         return [];
       });
     });
 
-
-    const url = (path) => new URL(path, `http://${window.location.host}`);
 
     const fetchComponent = async (id) => {
       const json = await fetch(url(`/api/component/${id}`)).then(data => {
