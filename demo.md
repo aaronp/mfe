@@ -6,10 +6,7 @@ This is how to "boot up" this micro-architecture on a new K8S cluster, showing:
  * k9s
  * argocd
 
-And an example of small polyglot repos.
-
-
-The main point is quick, meaningful feedback and a great dev experience.
+And an example of [micro-front-end](https://micro-frontends.org/)s on kubernetes.
 
 The order of development/testing is typically:
 
@@ -18,7 +15,6 @@ The order of development/testing is typically:
 3) locally: in its deployed (integration) environment (kubectl apply or local argoCD)
 
 After that, it should/can be nearly 100% consistent when done remotely -- and the process looks the same
-
 
 TL;DR: To just spin up everything:
 ```
@@ -64,14 +60,13 @@ make run
 # whatevs
 
 
-# show the endpoint
+# show the endpoint (port-forward in k9s)
 open http://localhost:8080/api/v1/registry/
 
-# run some curl tests
+# run some noddy tests (via curl) to get some data in there...
 make test
 
 # refresh browser, then kill it:
-
 docker ps
 
 ./kill.sh
@@ -114,7 +109,7 @@ logs, shell, port-forward ...
 argo is CD for K8S
 
 
-let's install it locally...
+let's install [argo-drone](https://github.com/easy-being-green/argo-drone) locally...
 
 watch this in K9S:
 
@@ -139,3 +134,52 @@ k delete -f server.yaml
 cd ../
 make installArgo
 ```
+
+
+### Full-whack, install everything
+```
+pushd ~/code/mfe/service-registry/server
+make installArgo
+
+cd ~/code/mfe/dashboard/server
+make installArgo
+
+cd ~/code/mfe/dashboard/web
+make installArgo
+
+cd ~/code/mfe/components/pinot-example/web
+make installArgo
+
+popd
+```
+
+## Show dashboard
+At this point we should be able to port-forward our dashboard web app and show that locally.
+
+Now - without touching anything (or our namespace), we should be able to:
+1) create a new component 
+
+```
+sbt new aaronp/mfe-svelte.g8
+# cd <app>, test it:
+make run 
+# ok, kill it and push a release
+make push
+
+# now add it into our cluster, either via argo...
+make installArgo
+# ...or directly...
+make deploy
+```
+
+2) nice. We should now be able to refresh the dashboard and see our new app!
+
+This goes for releases as well - we can update our component completely "hands-free"
+
+3) ... and now delete it!
+```
+kubectl delete -f k8s
+# or the whole (new) namespace
+kubectl delete namespace <namespace>
+```
+we should see that it goes stale after 15 seconds in the dashboard (as the heartbeat stops)

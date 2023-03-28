@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-export TAG=${TAG:-0.0.5}
+export TAG=${TAG:-0.0.6}
 export IMG=${IMG:-porpoiseltd/dashboard-web:$TAG}
 export PORT=${PORT:-3000}
 
@@ -30,7 +30,7 @@ EOL
 }
 
 installArgo() {
-    APP=${APP:-dashboard}
+    APP=${APP:-dashboard-web}
     BRANCH=${BRANCH:-`git rev-parse --abbrev-ref HEAD`}
 
     echo "creating $APP"

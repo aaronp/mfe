@@ -40,7 +40,7 @@ EOL
 }
 
 installArgo() {
-    APP=${APP:-dashboard}
+    APP=${APP:-dashboard-bff}
     BRANCH=${BRANCH:-`git rev-parse --abbrev-ref HEAD`}
 
     echo "creating $APP to point at $BRANCH"
