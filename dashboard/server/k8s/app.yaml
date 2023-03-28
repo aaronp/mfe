@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: dashboard-bff
-        image: porpoiseltd/dashboard-bff:0.0.3
+        image: porpoiseltd/dashboard-bff:0.0.5
         imagePullPolicy: Always
         env:
           - name: HOSTPORT
