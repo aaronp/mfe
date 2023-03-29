@@ -1,8 +1,10 @@
-run: build
+runDocker: buildDocker
+	source ./build.sh && runDocker
+run:
 	source ./build.sh && run
-build: 
-	source ./build.sh && build
-push: build
+buildDocker: 
+	source ./build.sh && buildDocker
+push: buildDocker
 	source ./build.sh && push
 installArgo:
 	source ./build.sh && installArgo

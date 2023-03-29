@@ -33,7 +33,7 @@ installArgo() {
     APP=${APP:-dashboard-web}
     BRANCH=${BRANCH:-`git rev-parse --abbrev-ref HEAD`}
 
-    echo "creating $APP"
+    echo "creating $APP in branch $BRANCH"
     
     argocd app create $APP \
     --repo https://github.com/aaronp/mfe.git \

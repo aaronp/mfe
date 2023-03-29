@@ -30,6 +30,7 @@ cd ~/code/mfe/components/pinot-example/web && pwd && make installArgo
 
 
 # or install directly
+
 k create namespace mfe
 k apply -f ~/code/mfe/service-registry/server/k8s/*.yaml
 k apply -f ~/code/mfe/dashboard/server/k8s/*.yaml
@@ -138,19 +139,15 @@ make installArgo
 
 ### Full-whack, install everything
 ```
-pushd ~/code/mfe/service-registry/server
-make installArgo
+kubectl get namespace mfe || kubectl create namespace mfe
 
-cd ~/code/mfe/dashboard/server
-make installArgo
-
-cd ~/code/mfe/dashboard/web
-make installArgo
-
-cd ~/code/mfe/components/pinot-example/web
-make installArgo
-
+pushd
+cd ~/code/mfe/service-registry/server && make installArgo
+cd ~/code/mfe/dashboard/server && make installArgo
+cd ~/code/mfe/dashboard/web && make installArgo
+cd ~/code/mfe/components/pinot-example/web && make installArgo
 popd
+
 ```
 
 ## Show dashboard
@@ -160,6 +157,8 @@ Now - without touching anything (or our namespace), we should be able to:
 1) create a new component 
 
 ```
+mkdir ~/code/tmp && cd ~/code/tmp 
+
 sbt new aaronp/mfe-svelte.g8
 # cd <app>, test it:
 make run 

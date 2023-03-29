@@ -5,7 +5,7 @@ export PORT=${PORT:-8080}
 
 # scala-cli --power package --docker App.scala --docker-from openjdk:11 --docker-image-repository service-registry
 
-build() {
+buildDocker() {
     docker build --tag $IMG .
 }
 
@@ -25,7 +25,13 @@ push() {
     docker push $IMG
 }
 
+
 run() {
+    scala-cli Server.scala
+}
+
+
+runDocker() {
     echo "docker run -it --rm -p $PORT:$PORT -d $IMG"
     id=`docker run -it --rm -p $PORT:$PORT -d $IMG`
     cat > kill.sh <<EOL
@@ -48,7 +54,7 @@ installArgo() {
     APP=${APP:-service-registry}
     BRANCH=${BRANCH:-`git rev-parse --abbrev-ref HEAD`}
 
-    echo "creating $APP"
+    echo "creating $APP in $BRANCH"
     
     # beast mode :-)
     argocd app create $APP \
